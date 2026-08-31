@@ -1,7 +1,7 @@
 {
   "name": "slotsdynamite-casino.co.uk",
   "site_name": "Slots Dynamite Casino ™ [UK] Official Site",
-  "html_head": "",
+  "html_head": "<link rel=\"canonical\" href=\"https://slotsdynamite-casino.co.uk/en-gb/\">\n<link rel=\"alternate\" href=\"https://slotsdynamite-casino.co.uk/\" hreflang=\"en\">\n<link rel=\"alternate\" href=\"https://slotsdynamite-casino.co.uk/en-gb/\" hreflang=\"en-GB\">\n<meta property=\"og:locale\" content=\"en_GB\">\n<meta property=\"og:type\" content=\"website\">\n<meta property=\"og:title\" content=\"Slots Dynamite Casino ™ [UK] Official Site\">\n<meta property=\"og:description\" content=\"Discover Slots Dynamite Casino for UK players. Read our detailed guide on registration, game selection, bonus offers, payment options in GBP, mobile access.\">\n<meta property=\"og:url\" content=\"slotsdynamite-casino.co.uk/\">\n<meta property=\"og:site_name\" content= \"Slots Dynamite Casino\">\n<meta property=\"og:image\" content=\"https://slotsdynamite-casino.co.uk//uploads/cef84b4bd2b0725518de05c0097c5c1c.webp\">",
   "url": "slotsdynamite-casino.co.uk",
   "template": "tupchiy",
   "language_code": "en",
@@ -57,7 +57,7 @@
       }
     ]
   },
-  "seo_description": " Discover Slots Dynamite Casino for UK players. Read our detailed guide on registration, game selection, bonus offers, payment options in GBP,mobile access.",
+  "seo_description": "Discover Slots Dynamite Casino for UK players. Read our detailed guide on registration, game selection, bonus offers, payment options in GBP,mobile access.",
   "redirect_site": null,
   "hero_title": "Slots Dynamite UK",
   "hero_subtitle": "Welcome Bonus",
@@ -77,14 +77,14 @@
   "home_name": "Slots Dynamite Casino",
   "subdomains": null,
   "accent_color": "#d4af37",
-  "main_background": null,
-  "secondary_background": null,
-  "button_background": null,
-  "button_text_color": null,
-  "text_color": null,
-  "color_highlight_text": null,
-  "color_main_btn_text": null,
-  "cta_background": null,
+  "main_background": "#151415",
+  "secondary_background": "#151415",
+  "button_background": "#F17730",
+  "button_text_color": "#FFFFFF",
+  "text_color": "#FEFFFF",
+  "color_highlight_text": "#FFFFFF",
+  "color_main_btn_text": "#FFFFFF",
+  "cta_background": "#F17730",
   "logo": {
     "url": "/uploads/c1efba94d236491a6b29001d0e63c035.webp",
     "alt": "slotsdynamite logo"
@@ -97,9 +97,93 @@
     "url": "/uploads/cef84b4bd2b0725518de05c0097c5c1c.webp",
     "alt": "slotsdynamite baner"
   },
-  "header_menu": null,
-  "footer_menu": null,
-  "footer_images": null,
+  "header_menu": [
+    {
+      "link": "/play/",
+      "label": "Games",
+      "submenu": [],
+      "openInNewTab": false
+    },
+    {
+      "link": "/play/",
+      "label": "Bonuses",
+      "submenu": [],
+      "openInNewTab": false
+    },
+    {
+      "link": "/play/",
+      "label": "Sports",
+      "submenu": [],
+      "openInNewTab": false
+    },
+    {
+      "link": "/play/",
+      "label": "App",
+      "submenu": [],
+      "openInNewTab": false
+    },
+    {
+      "link": "/play/",
+      "label": "Payments",
+      "submenu": [],
+      "openInNewTab": false
+    },
+    {
+      "link": "/play/",
+      "label": "Review",
+      "submenu": [],
+      "openInNewTab": false
+    }
+  ],
+  "footer_menu": [
+    {
+      "link": "/play/",
+      "label": "About us",
+      "submenu": [],
+      "openInNewTab": false
+    },
+    {
+      "link": "/play/",
+      "label": "Contact",
+      "submenu": [],
+      "openInNewTab": false
+    },
+    {
+      "link": "/play/",
+      "label": "Privacy Policy",
+      "submenu": [],
+      "openInNewTab": false
+    },
+    {
+      "link": "/play/",
+      "label": "Cookies Policy",
+      "submenu": [],
+      "openInNewTab": false
+    },
+    {
+      "link": "/play/",
+      "label": "Terms and Conditions",
+      "submenu": [],
+      "openInNewTab": false
+    }
+  ],
+  "footer_images": [
+    {
+      "link": "",
+      "image": "/uploads/7b5af286adade20c01b9aee4e0251787.webp",
+      "image_alt": "be gamble aware"
+    },
+    {
+      "link": "https://www.gamcare.org.uk/",
+      "image": "/uploads/1bfe3b454cda5ccf482e868ba2dfdc15.webp",
+      "image_alt": "gamcare"
+    },
+    {
+      "link": "https://responsiblegambling.org/",
+      "image": "/uploads/0b535bc7edadb208aa9a48d4388718df.svg",
+      "image_alt": "responsible gaming"
+    }
+  ],
   "Slots": [
     {
       "link": "/play/",
@@ -176,9 +260,10 @@
       "question": "Can I play games for free before betting real money?"
     }
   ],
-  "_generated_at": "2026-08-31T09:15:38.843Z",
+  "_generated_at": "2026-08-31T09:31:18.588Z",
   "_version": "1.0.0",
+  "html_head_alt": "slotsdynamite baner",
   "content_alt": "slotdynamite register",
-  "_last_deploy": "2026-08-31T09:15:39.442Z",
-  "_deploy_trigger": "y8owt"
+  "_last_deploy": "2026-08-31T09:31:19.168Z",
+  "_deploy_trigger": "wcpsy"
 }
