@@ -94,7 +94,8 @@
     "alt": "slotsdynamite logo"
   },
   "main_background_img": {
-    "url": "/uploads/8792cc6ee7b5d93c7b13f11e2dcd1154.webp"
+    "url": "/uploads/2a6cda027e2ff3d9e8bba7fc4096b2a4.webp",
+    "alt": "slotsdynamite baner"
   },
   "header_menu": null,
   "footer_menu": null,
@@ -175,9 +176,9 @@
       "question": "Can I play games for free before betting real money?"
     }
   ],
-  "_generated_at": "2026-08-31T09:05:39.788Z",
+  "_generated_at": "2026-08-31T09:08:26.775Z",
   "_version": "1.0.0",
   "content_alt": "slotdynamite register",
-  "_last_deploy": "2026-08-31T09:05:40.365Z",
-  "_deploy_trigger": "83ce5c"
+  "_last_deploy": "2026-08-31T09:08:27.365Z",
+  "_deploy_trigger": "9lwa3"
 }
