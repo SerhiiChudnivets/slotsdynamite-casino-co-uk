@@ -22,20 +22,77 @@
       "gptPrompt": "",
       "heroTitle": "Slots Dynamite UK",
       "heroSubtitle": "Welcome Bonus",
-      "heroImage": "/uploads/cef84b4bd2b0725518de05c0097c5c1c.webp",
+      "heroImage": "/uploads/5dd644f7611854ea4224895ddac7d9e6.webp",
       "template": "homepage",
       "isHomepage": false,
       "order": 0,
       "lang": "en-GB",
       "faqTitle": "FAQ",
+      "popupText": "Bonus Up to €2000 + 100 FS ",
+      "popupLogo": "/uploads/c1efba94d236491a6b29001d0e63c035.webp",
       "sections": null,
+      "slots": [
+        {
+          "link": "/play/",
+          "logo": "/uploads/5bf05f7c417802687f92671178ddb8ed.webp",
+          "name": "Joker Stoker",
+          "Name": "Joker Stoker",
+          "logo_alt": "joker stoker"
+        },
+        {
+          "link": "/play/",
+          "logo": "/uploads/298b9572a9fd11b3036de649f1d71e09.webp",
+          "name": "Pho Sho",
+          "Name": "Pho Sho",
+          "logo_alt": "pho sho"
+        },
+        {
+          "link": "/play/",
+          "logo": "/uploads/2419013924fd9ce9a5741c6a80dee5d8.webp",
+          "name": "Wild Wild Pearls",
+          "Name": "Wild Wild Pearls",
+          "logo_alt": "wild wild pearls"
+        },
+        {
+          "link": "/play/",
+          "logo": "/uploads/3a977159d4449d04c5b5e93e231f52fe.webp",
+          "name": "Lucky Money",
+          "Name": "Lucky Money",
+          "logo_alt": "lucky money"
+        }
+      ],
+      "bonuses": [
+        {
+          "link": "/play/",
+          "logo": "/uploads/c680fd598c4a22c2669e1eaee07a310b.webp",
+          "name": "Cashback bonus",
+          "Name": "Cashback bonus",
+          "logo_alt": "cashback bonus"
+        },
+        {
+          "link": "/play/",
+          "logo": "/uploads/5e2e87c3b1cf5f5e112f42ca7a93a7f4.webp",
+          "name": "Welcome Bonus",
+          "Name": "Welcome Bonus",
+          "logo_alt": "Welcome Bonus"
+        },
+        {
+          "link": "/play/",
+          "logo": "/uploads/4387701e32901123b88b30c38d2695b0.webp",
+          "name": "Weekly Bonus",
+          "Name": "Weekly Bonus",
+          "logo_alt": "Weekly Bonus"
+        }
+      ],
       "faq": [],
       "websiteId": 138,
       "createdAt": {},
       "updatedAt": {},
+      "popup_text": "Bonus Up to €2000 + 100 FS ",
+      "popup_logo": "/uploads/c1efba94d236491a6b29001d0e63c035.webp",
       "hero_title": "Slots Dynamite UK",
       "hero_subtitle": "Welcome Bonus",
-      "hero_image": "/uploads/cef84b4bd2b0725518de05c0097c5c1c.webp",
+      "hero_image": "/uploads/5dd644f7611854ea4224895ddac7d9e6.webp",
       "seo_title": "Slots Dynamite Casino ™ [UK] Official Site",
       "seo_description": "Discover Slots Dynamite Casino for UK players. Read our detailed guide on registration, game selection, bonus offers, payment options in GBP,mobile access.",
       "html_head": "<link rel=\"canonical\" href=\"https://slotsdynamite-casino.co.uk/en-gb/\">\n<link rel=\"alternate\" href=\"https://slotsdynamite-casino.co.uk/\" hreflang=\"en\">\n<link rel=\"alternate\" href=\"https://slotsdynamite-casino.co.uk/en-gb/\" hreflang=\"en-GB\">\n<meta property=\"og:locale\" content=\"en_GB\">\n<meta property=\"og:type\" content=\"website\">\n<meta property=\"og:title\" content=\"Slots Dynamite Casino ™ [UK] Official Site\">\n<meta property=\"og:description\" content=\"Discover Slots Dynamite Casino for UK players. Read our detailed guide on registration, game selection, bonus offers, payment options in GBP, mobile access.\">\n<meta property=\"og:url\" content=\"slotsdynamite-casino.co.uk/\">\n<meta property=\"og:site_name\" content= \"Slots Dynamite Casino\">\n<meta property=\"og:image\" content=\"https://slotsdynamite-casino.co.uk//uploads/cef84b4bd2b0725518de05c0097c5c1c.webp\">",
@@ -43,6 +100,8 @@
       "content_alt": "slotdynamite register",
       "htmlHead_alt": "slotsdynamite baner",
       "heroImage_alt": "slotsdynamite baner",
+      "popupLogo_alt": "slotsdynamite logo",
+      "popup_logo_alt": "slotsdynamite logo",
       "hero_image_alt": "slotsdynamite baner",
       "html_head_alt": "slotsdynamite baner"
     }
@@ -130,7 +189,7 @@
     "alt": "slotsdynamite logo"
   },
   "main_background_img": {
-    "url": "/uploads/cef84b4bd2b0725518de05c0097c5c1c.webp",
+    "url": "/uploads/5dd644f7611854ea4224895ddac7d9e6.webp",
     "alt": "slotsdynamite baner"
   },
   "header_menu": [
@@ -321,10 +380,10 @@
       "question": "Can I play games for free before betting real money?"
     }
   ],
-  "_generated_at": "2026-08-31T10:06:33.489Z",
+  "_generated_at": "2026-09-02T11:35:06.522Z",
   "_version": "1.0.0",
   "html_head_alt": "slotsdynamite baner",
   "content_alt": "slotdynamite register",
-  "_last_deploy": "2026-08-31T10:06:34.081Z",
-  "_deploy_trigger": "zhblmf"
+  "_last_deploy": "2026-09-02T11:35:07.130Z",
+  "_deploy_trigger": "846dus"
 }
