@@ -73,6 +73,10 @@ interface PageData {
   faqTitle?: string
   faq?: { id?: number; question: string; answer: string }[]
   FAQ?: { id?: number; question: string; answer: string }[]
+  Slots?: Slot[]
+  slots?: Slot[]
+  Bonuses?: Bonus[]
+  bonuses?: Bonus[]
   sections?: any[]
   template?: string
   [key: string]: any
@@ -771,10 +775,23 @@ export default function HomepageTemplate({ page, site }: { page: PageData; site:
 
   const processedContent = page.content ? replaceVariables(page.content) : site.content ? replaceVariables(site.content) : ''
 
-  const pageSlots = Array.isArray(page.Slots) ? page.Slots : []
+  let pageSlots: Slot[] = []
+  if (Array.isArray(page.Slots)) {
+    pageSlots = page.Slots
+  } else if (Array.isArray(page.slots)) {
+    pageSlots = page.slots
+  }
+
   const siteSlots = Array.isArray(site.Slots) ? site.Slots : []
   const slots = pageSlots.length > 0 ? pageSlots : siteSlots
-  const pageBonuses = Array.isArray(page.Bonuses) ? page.Bonuses : []
+
+  let pageBonuses: Bonus[] = []
+  if (Array.isArray(page.Bonuses)) {
+    pageBonuses = page.Bonuses
+  } else if (Array.isArray(page.bonuses)) {
+    pageBonuses = page.bonuses
+  }
+
   const siteBonuses = Array.isArray(site.Bonuses) ? site.Bonuses : []
   const bonuses = pageBonuses.length > 0 ? pageBonuses : siteBonuses
 

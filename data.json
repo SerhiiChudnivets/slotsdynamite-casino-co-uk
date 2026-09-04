@@ -264,7 +264,7 @@
   ],
   "footer_images": [
     {
-      "link": "",
+      "link": "https://www.gambleaware.org/",
       "image": "/uploads/7b5af286adade20c01b9aee4e0251787.webp",
       "image_alt": "be gamble aware"
     },
@@ -279,27 +279,27 @@
       "image_alt": "responsible gaming"
     },
     {
-      "link": "",
+      "link": "/play/",
       "image": "/uploads/6e4898443d8c7a6d3f85c8c699adf4b8.svg",
       "image_alt": "visa"
     },
     {
-      "link": "",
+      "link": "/play/",
       "image": "/uploads/acd94c7d64c4572fa58fc8f828f74bd8.svg",
       "image_alt": "googlepay"
     },
     {
-      "link": "",
+      "link": "/play/",
       "image": "/uploads/2333a8386ea6b8af17c8fa8ac44035e2.svg",
       "image_alt": "mastercard"
     },
     {
-      "link": "",
+      "link": "/play/",
       "image": "/uploads/767309a1bb8da0f68e987f277a6ebbf1.webp",
       "image_alt": "bitcoin"
     },
     {
-      "link": "",
+      "link": "/play/",
       "image": "/uploads/657303d64f52b7d3416483142b9b416c.svg",
       "image_alt": "skrill"
     }
@@ -380,10 +380,10 @@
       "question": "Can I play games for free before betting real money?"
     }
   ],
-  "_generated_at": "2026-09-02T11:41:15.056Z",
+  "_generated_at": "2026-09-04T07:36:07.113Z",
   "_version": "1.0.0",
   "html_head_alt": "slotsdynamite baner",
   "content_alt": "slotdynamite register",
-  "_last_deploy": "2026-09-02T11:41:15.640Z",
-  "_deploy_trigger": "zn63tc"
+  "_last_deploy": "2026-09-04T07:36:07.717Z",
+  "_deploy_trigger": "fc1tw4"
 }
