@@ -5,20 +5,26 @@ interface MediaFile {
   id?: number
   name?: string
   url?: string
+  alt?: string
+  alternativeText?: string
   formats?: any
 }
 
 interface Slot {
   id?: number
   Name?: string
+  name?: string
   logo?: MediaFile | MediaFile[] | string
+  logo_alt?: string
   link?: string
 }
 
 interface Bonus {
   id?: number
   Name?: string
+  name?: string
   logo?: MediaFile | MediaFile[] | string
+  logo_alt?: string
   link?: string
 }
 
@@ -44,6 +50,8 @@ interface MenuItem {
 interface FooterImage {
   id?: number
   link?: string
+  alt?: string
+  image_alt?: string
   image?: string | MediaFile | MediaFile[] | null
 }
 
@@ -65,10 +73,13 @@ interface PageData {
   hero_subtitle?: string
   heroSubtitle?: string
   hero_badge?: string
+  heroBadge?: string
   heroImage?: string | MediaFile | MediaFile[] | null
   hero_image?: string | MediaFile | MediaFile[] | null
   cta_text?: string
+  ctaText?: string
   cta_link?: string
+  tagline?: string
   faq_title?: string
   faqTitle?: string
   faq?: { id?: number; question: string; answer: string }[]
@@ -99,10 +110,13 @@ interface SiteData {
   hero_title?: string
   hero_subtitle?: string
   hero_badge?: string
+  heroBadge?: string
   cta_text?: string
+  ctaText?: string
   tagline?: string
   features_list?: string
   popup_text?: string
+  popupText?: string
   faq_title?: string
   faqTitle?: string
   slots_title?: string
@@ -112,11 +126,14 @@ interface SiteData {
   secondary_background?: string
   button_background?: string
   button_text?: string
+  button_text_color?: string
   text_color?: string
   color_highlight_text?: string
   color_main_btn_text?: string
   Slots?: Slot[]
+  slots?: Slot[]
   Bonuses?: Bonus[]
+  bonuses?: Bonus[]
   main_background_img?: any
   popup_logo?: any
   footer_images?: FooterImage[]
@@ -196,7 +213,7 @@ const styles = `
   }
   .btn-outline:hover { background: var(--primary); color: var(--primary-foreground); }
 
-  .btn-primary { background: var(--button-bg); color: var(--primary-foreground); }
+  .btn-primary { background: var(--button-bg); color: var(--button-text-color); }
   .btn-primary:hover { opacity: 0.9; }
 
   .btn-lg { padding: 1rem 2rem; font-size: 1.125rem; }
@@ -669,11 +686,13 @@ export default function HomepageTemplate({ page, site }: { page: PageData; site:
         const metaName = typeof attrs.name === 'string' ? attrs.name.toLowerCase() : ''
         const metaProperty = typeof attrs.property === 'string' ? attrs.property.toLowerCase() : ''
         const metaHttpEquiv = typeof attrs.httpEquiv === 'string' ? attrs.httpEquiv.toLowerCase() : ''
+        const metaContent = typeof attrs.content === 'string' ? attrs.content.toLowerCase() : ''
         const metaKey = metaName || metaProperty || metaHttpEquiv || (attrs.charSet ? 'charset' : '')
+        const metaDedupKey = metaKey ? `meta:${metaKey}:${metaContent}` : `meta:${key}`
         if (metaName === 'description') continue
-        if (metaKey && seenHeadTags.has(`meta:${metaKey}`)) continue
-        if (metaKey) seenHeadTags.add(`meta:${metaKey}`)
-        tags.push(<meta key={metaKey ? `meta:${metaKey}` : key} {...attrs} />)
+        if (seenHeadTags.has(metaDedupKey)) continue
+        seenHeadTags.add(metaDedupKey)
+        tags.push(<meta key={metaDedupKey} {...attrs} />)
       }
 
       if (tagName === 'link') {
@@ -703,6 +722,7 @@ export default function HomepageTemplate({ page, site }: { page: PageData; site:
   const buttonBackground = page.button_background || site.button_background || '#f59e0b'
   const ctaBackground = page.cta_background || site.cta_background || buttonBackground
   const buttonText = page.button_text || site.button_text || '#1a202c'
+  const buttonTextColor = page.button_text_color || site.button_text_color || page.button_text || site.button_text || '#1a202c'
   const textColor = page.text_color || site.text_color || '#f7fafc'
   const colorHighlightText = page.color_highlight_text || site.color_highlight_text || '#f59e0b'
   const colorMainBtnText = page.color_main_btn_text || site.color_main_btn_text || 'fff'
@@ -710,9 +730,13 @@ export default function HomepageTemplate({ page, site }: { page: PageData; site:
   const siteName = site.site_name || site.name || 'LuckySpin'
   const heroTitle = page.heroTitle || page.hero_title || site.heroTitle || site.hero_title || 'Get 200% Bonus'
   const heroSubtitle = page.heroSubtitle || page.hero_subtitle || site.heroSubtitle || site.hero_subtitle || 'Up to \u20AC1,000 + 100 Free Spins'
-  const heroBadge = page.hero_badge || site.hero_badge || 'Welcome Bonus'
-  const ctaText = page.cta_text || site.cta_text || 'Play Now'
-  const popupText = page.popup_text || site.popup_text || 'Welcome Bonus: 100% up to $500 + 200 Free Spins!'
+  const pageHeroBadge = Object.prototype.hasOwnProperty.call(page, 'heroBadge') ? page.heroBadge : page.hero_badge
+  const heroBadge = typeof pageHeroBadge === 'string' ? pageHeroBadge.trim() : ''
+  const ctaText = page.ctaText || page.cta_text || site.ctaText || site.cta_text || 'Play Now'
+  const tagline = page.tagline || site.tagline || 'Start your winning journey today with the best welcome offer in online gaming!'
+  const pagePopupText = [page.popupText, page.popup_text].find((value) => typeof value === 'string' && value.trim())
+  const sitePopupText = [site.popupText, site.popup_text].find((value) => typeof value === 'string' && value.trim())
+  const popupText = pagePopupText || sitePopupText || 'Welcome Bonus: 100% up to $500 + 200 Free Spins!'
 
   const normalizeUrl = (url?: string) => {
     if (!url) return '#'
@@ -773,7 +797,8 @@ export default function HomepageTemplate({ page, site }: { page: PageData; site:
     return result
   }
 
-  const processedContent = page.content ? replaceVariables(page.content) : site.content ? replaceVariables(site.content) : ''
+  const contentSource = page.content || site.content || ''
+  const processedContent = contentSource ? replaceVariables(contentSource) : ''
 
   let pageSlots: Slot[] = []
   if (Array.isArray(page.Slots)) {
@@ -782,7 +807,9 @@ export default function HomepageTemplate({ page, site }: { page: PageData; site:
     pageSlots = page.slots
   }
 
-  const siteSlots = Array.isArray(site.Slots) ? site.Slots : []
+  const siteSlots = Array.isArray(site.Slots) && site.Slots.length > 0
+    ? site.Slots
+    : Array.isArray(site.slots) ? site.slots : []
   const slots = pageSlots.length > 0 ? pageSlots : siteSlots
 
   let pageBonuses: Bonus[] = []
@@ -792,7 +819,10 @@ export default function HomepageTemplate({ page, site }: { page: PageData; site:
     pageBonuses = page.bonuses
   }
 
-  const siteBonuses = Array.isArray(site.Bonuses) ? site.Bonuses : []
+  const siteBonusFallbacks = Array.isArray(site.bonuses) ? site.bonuses : []
+  const siteBonuses = Array.isArray(site.Bonuses) && site.Bonuses.length > 0
+    ? site.Bonuses
+    : siteBonusFallbacks
   const bonuses = pageBonuses.length > 0 ? pageBonuses : siteBonuses
 
   const dynamicStyles = `
@@ -810,6 +840,7 @@ export default function HomepageTemplate({ page, site }: { page: PageData; site:
       --button-bg: ${buttonBackground};
       --cta-bg: ${ctaBackground};
       --button-text: ${buttonText};
+      --button-text-color: ${buttonTextColor};
       --color-main-btn: ${colorMainBtnText};
     }
   `
@@ -838,6 +869,19 @@ export default function HomepageTemplate({ page, site }: { page: PageData; site:
     return ''
   }
 
+  const getMediaAlt = (media?: MediaFile | MediaFile[] | string | null, fallback = '') => {
+    if (!media) return fallback
+    if (typeof media === 'string') return fallback
+    if (Array.isArray(media)) return getMediaAlt(media[0], fallback)
+    return media.alt || media.alternativeText || media.name || fallback
+  }
+
+  const getSlotDisplayName = (slot: Slot, fallbackIndex: number) => {
+    const rawName = slot.logo_alt || slot.Name || slot.name || `Slot ${fallbackIndex + 1}`
+    const trimmedName = rawName.trim()
+    return trimmedName ? `${trimmedName.charAt(0).toUpperCase()}${trimmedName.slice(1)}` : `Slot ${fallbackIndex + 1}`
+  }
+
   const footerImagesSource = Array.isArray(page.footer_images) && page.footer_images.length > 0
     ? page.footer_images
     : Array.isArray(page.footerImages) && page.footerImages.length > 0
@@ -846,7 +890,11 @@ export default function HomepageTemplate({ page, site }: { page: PageData; site:
         ? site.footer_images
         : site.footerImages || []
   const footerImages = footerImagesSource
-    .map((item) => ({ ...item, imageUrl: getMediaUrl(item.image || undefined) }))
+    .map((item, index) => ({
+      ...item,
+      imageUrl: getMediaUrl(item.image || undefined),
+      imageAlt: item.alt || item.image_alt || getMediaAlt(item.image || undefined, `Footer certification ${index + 1}`),
+    }))
     .filter((item) => item.imageUrl)
 
   const backgroundImage = getMediaUrl(page.heroImage || page.hero_image || site.heroImage || site.hero_image || site.main_background_img)
@@ -896,7 +944,7 @@ export default function HomepageTemplate({ page, site }: { page: PageData; site:
             <div className="header-content">
               <div className="logo">
                 <a href={normalizeUrl(urlSite)}>
-                  <img src={getMediaUrl(site.logo)} alt={siteName} className="logo-image"/>
+                  <img src={getMediaUrl(site.logo)} alt={getMediaAlt(site.logo, siteName)} className="logo-image"/>
                 </a>
               </div>
               <nav className={`nav-bar ${isMobileMenuOpen ? 'open' : ''}`}>
@@ -997,14 +1045,14 @@ export default function HomepageTemplate({ page, site }: { page: PageData; site:
           <div className="hero-overlay"></div>
           <div className="container">
             <div className="hero-content">
-              <span className="hero-badge">{heroBadge}</span>
+              {heroBadge && <span className="hero-badge">{heroBadge}</span>}
               <div className="hero-background">
                 <h1 className="hero-title">
                   <span className="hero-accent">{heroTitle}</span>
                 </h1>
                 <p className="hero-subtitle">{heroSubtitle}</p>
                 <p className="hero-description">
-                  {page.tagline || site.tagline || 'Start your winning journey today with the best welcome offer in online gaming!'}
+                  {tagline}
                 </p>
               </div>
               <button
@@ -1029,11 +1077,13 @@ export default function HomepageTemplate({ page, site }: { page: PageData; site:
                 </button>
                 <div className="slots-grid">
                   {slots.slice(slotStartIndex, slotStartIndex + visibleSlots).map((slot, index) => {
+                    const slotIndex = slotStartIndex + index
                     const logoUrl = getLogoUrl(slot)
+                    const slotName = getSlotDisplayName(slot, slotIndex)
                     return (
                       <div key={slot.id || index} className="slot-card">
                         {logoUrl ? (
-                          <img src={logoUrl} alt={slot.Name || `Slot ${index + 1}`} className="slot-image" />
+                          <img src={logoUrl} alt={slot.logo_alt || getMediaAlt(slot.logo, slotName)} className="slot-image" />
                         ) : (
                           <div className="slot-image" style={{ background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem' }}>
                             {'\uD83C\uDFB0'}
@@ -1041,7 +1091,7 @@ export default function HomepageTemplate({ page, site }: { page: PageData; site:
                         )}
                         <div className="slot-overlay">
                           <div className="slot-background">
-                            <span className="slot-name">{slot.Name || `Slot ${index + 1}`}</span>
+                            <span className="slot-name">{slotName}</span>
                             <button className="btn btn-primary" onClick={() => slot.link && (window.location.href = slot.link)}>Play</button>
                           </div>
                         </div>
@@ -1071,12 +1121,16 @@ export default function HomepageTemplate({ page, site }: { page: PageData; site:
                 </button>
                 <div className="bonuses-grid">
                   {bonuses.slice(bonusStartIndex, bonusStartIndex + visibleBonuses).map((bonus, index) => {
+                    const bonusIndex = bonusStartIndex + index
+                    const siteBonus = siteBonuses[bonusIndex]
+                    const fallbackBonus = siteBonusFallbacks[bonusIndex]
                     const bonusLogo = getMediaUrl(bonus.logo)
+                    const bonusName = bonus.Name || bonus.name || siteBonus?.Name || siteBonus?.name || fallbackBonus?.Name || fallbackBonus?.name || `Bonus ${bonusIndex + 1}`
                     return (
                       <div key={bonus.id || index} className="bonus-card">
                         <div className="bonus-header">
                           {bonusLogo ? (
-                            <img src={bonusLogo} alt={bonus.Name || `Bonus ${index + 1}`} />
+                            <img src={bonusLogo} alt={bonus.logo_alt || getMediaAlt(bonus.logo, bonusName)} />
                           ) : (
                             <svg className="bonus-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" />
@@ -1084,7 +1138,7 @@ export default function HomepageTemplate({ page, site }: { page: PageData; site:
                           )}
                         </div>
                         <div className="bonus-content">
-                          <h3 className="bonus-name">{bonus.Name || `Bonus ${index + 1}`}</h3>
+                          <h3 className="bonus-name">{bonusName}</h3>
                           <button
                             className="btn btn-primary"
                             style={{ width: '100%', padding: '0.5rem' }}
@@ -1149,14 +1203,14 @@ export default function HomepageTemplate({ page, site }: { page: PageData; site:
               <div className="footer-top">
                 <div className="logo">
                   <a href={normalizeUrl(urlSite)}>
-                    <img src={getMediaUrl(site.logo)} alt={siteName} className="logo-image"/>
+                    <img src={getMediaUrl(site.logo)} alt={getMediaAlt(site.logo, siteName)} className="logo-image"/>
                   </a>
                 </div>
                 <div className="footer-certifications">
                   {footerImages.length > 0 ? (
                     footerImages.map((item, index) => (
                       <a key={item.id || index} href={item.link || '#'} className="footer-certification-link" target="_blank" rel="nofollow">
-                        <img src={item.imageUrl} alt={`Footer certification ${index + 1}`} className="footer-certification-image" />
+                        <img src={item.imageUrl} alt={item.imageAlt} className="footer-certification-image" />
                       </a>
                     ))
                   ) : (
@@ -1212,7 +1266,7 @@ export default function HomepageTemplate({ page, site }: { page: PageData; site:
             <div className="popup-content">
               {getMediaUrl(page.popup_logo || site.popup_logo) && (
                 <div className="logo">
-                  <img src={getMediaUrl(page.popup_logo || site.popup_logo)} alt="Logo" className="logo-image" />
+                  <img src={getMediaUrl(page.popup_logo || site.popup_logo)} alt={getMediaAlt(page.popup_logo, getMediaAlt(site.popup_logo, 'Logo'))} className="logo-image" />
                 </div>
               )}
               <div className="popup-text">{popupText}</div>

@@ -4,6 +4,8 @@ interface MediaFile {
   id?: number
   name?: string
   url?: string
+  alt?: string
+  alternativeText?: string
 }
 
 interface ContentSection {
@@ -49,6 +51,11 @@ interface SiteData {
   pages?: PageData[]
   header_menu?: any[]
   footer_menu?: any[]
+}
+
+const getMediaAlt = (media?: MediaFile | null, fallback = '') => {
+  if (!media) return fallback
+  return media.alt || media.alternativeText || media.name || fallback
 }
 
 const styles = `
@@ -266,7 +273,7 @@ export default function DefaultTemplate({ page, site }: { page: PageData; site: 
       <header className="default-header">
         <div className="default-header-inner">
           <a href="/" className="default-logo">
-            {site.logo?.url ? <img src={site.logo.url} alt={siteName} style={{height: '40px'}} /> : siteName}
+            {site.logo?.url ? <img src={site.logo.url} alt={getMediaAlt(site.logo, siteName)} style={{height: '40px'}} /> : siteName}
           </a>
           <nav className="default-nav">
             <a href="/">Home</a>
@@ -307,7 +314,7 @@ export default function DefaultTemplate({ page, site }: { page: PageData; site: 
             </div>
             {section.image?.url && (
               <div>
-                <img src={section.image.url} alt={section.heading || ''} />
+                <img src={section.image.url} alt={getMediaAlt(section.image, section.heading || '')} />
               </div>
             )}
           </div>

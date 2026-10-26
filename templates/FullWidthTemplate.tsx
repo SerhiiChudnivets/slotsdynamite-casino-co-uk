@@ -4,6 +4,8 @@ interface MediaFile {
   id?: number
   name?: string
   url?: string
+  alt?: string
+  alternativeText?: string
 }
 
 interface ContentSection {
@@ -49,6 +51,11 @@ interface SiteData {
   pages?: PageData[]
   header_menu?: any[]
   footer_menu?: any[]
+}
+
+const getMediaAlt = (media?: MediaFile | null, fallback = '') => {
+  if (!media) return fallback
+  return media.alt || media.alternativeText || media.name || fallback
 }
 
 const styles = `
@@ -333,7 +340,7 @@ export default function FullWidthTemplate({ page, site }: { page: PageData; site
 
       <header className="fullwidth-header">
         <a href="/" className="fullwidth-logo">
-          {site.logo?.url ? <img src={site.logo.url} alt={siteName} style={{height: '36px'}} /> : siteName}
+          {site.logo?.url ? <img src={site.logo.url} alt={getMediaAlt(site.logo, siteName)} style={{height: '36px'}} /> : siteName}
         </a>
         <nav className="fullwidth-nav">
           <a href="/">Home</a>

@@ -4,6 +4,8 @@ interface MediaFile {
   id?: number
   name?: string
   url?: string
+  alt?: string
+  alternativeText?: string
 }
 
 interface ContentSection {
@@ -49,6 +51,11 @@ interface SiteData {
   pages?: PageData[]
   header_menu?: any[]
   footer_menu?: any[]
+}
+
+const getMediaAlt = (media?: MediaFile | null, fallback = '') => {
+  if (!media) return fallback
+  return media.alt || media.alternativeText || media.name || fallback
 }
 
 const styles = `
@@ -299,7 +306,7 @@ export default function BlogTemplate({ page, site }: { page: PageData; site: Sit
       <header className="blog-header">
         <div className="blog-header-inner">
           <a href="/" className="blog-logo">
-            {site.logo?.url ? <img src={site.logo.url} alt={siteName} style={{height: '32px'}} /> : siteName}
+            {site.logo?.url ? <img src={site.logo.url} alt={getMediaAlt(site.logo, siteName)} style={{height: '32px'}} /> : siteName}
           </a>
           <nav className="blog-nav">
             <a href="/">Home</a>
@@ -318,7 +325,7 @@ export default function BlogTemplate({ page, site }: { page: PageData; site: Sit
         </header>
 
         {page.hero_image?.url && (
-          <img src={page.hero_image.url} alt={page.title} className="blog-hero-image" />
+          <img src={page.hero_image.url} alt={getMediaAlt(page.hero_image, page.title)} className="blog-hero-image" />
         )}
 
         {page.content && (
@@ -329,7 +336,7 @@ export default function BlogTemplate({ page, site }: { page: PageData; site: Sit
           <div key={section.id || index} className="blog-section">
             {section.heading && <h2>{section.heading}</h2>}
             {section.text && <div className="blog-section-content" dangerouslySetInnerHTML={{ __html: section.text }} />}
-            {section.image?.url && <img src={section.image.url} alt={section.heading || ''} />}
+            {section.image?.url && <img src={section.image.url} alt={getMediaAlt(section.image, section.heading || '')} />}
             {section.cta_text && section.cta_link && (
               <a href={section.cta_link} className="blog-cta">{section.cta_text}</a>
             )}

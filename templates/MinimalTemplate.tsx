@@ -5,6 +5,8 @@ interface MediaFile {
   id?: number
   name?: string
   url?: string
+  alt?: string
+  alternativeText?: string
   formats?: any
 }
 
@@ -21,6 +23,8 @@ interface MenuItem {
 interface FooterImage {
   id?: number
   link?: string
+  alt?: string
+  image_alt?: string
   image?: string | MediaFile | MediaFile[] | null
 }
 
@@ -40,6 +44,7 @@ interface PageData {
   hero_subtitle?: string
   heroSubtitle?: string
   hero_badge?: string
+  heroBadge?: string
   heroImage?: string | MediaFile | MediaFile[] | null
   hero_image?: string | MediaFile | MediaFile[] | null
   cta_text?: string
@@ -51,6 +56,7 @@ interface PageData {
   secondary_background?: string
   button_background?: string
   button_text?: string
+  button_text_color?: string
   text_color?: string
   color_highlight_text?: string
   color_main_btn_text?: string
@@ -62,6 +68,7 @@ interface PageData {
   footerImages?: FooterImage[]
   popup_logo?: any
   popup_text?: string
+  popupText?: string
   get_bonus_btn_text?: string
   logo?: any
   [key: string]: any
@@ -92,6 +99,7 @@ interface SiteData {
   secondary_background?: string
   button_background?: string
   button_text?: string
+  button_text_color?: string
   text_color?: string
   color_highlight_text?: string
   color_main_btn_text?: string
@@ -101,6 +109,7 @@ interface SiteData {
   footerImages?: FooterImage[]
   popup_logo?: any
   popup_text?: string
+  popupText?: string
   get_bonus_btn_text?: string
   html_head?: string
   htmlHead?: string
@@ -154,7 +163,7 @@ const styles = `
   }
   .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
   .btn-outline:hover { background: var(--primary); color: var(--primary-foreground); }
-  .btn-primary { background: var(--button-bg); color: var(--primary-foreground); }
+  .btn-primary { background: var(--button-bg); color: var(--button-text-color); }
   .btn-primary:hover { opacity: 0.9; }
   .btn-lg { padding: 1rem 2rem; font-size: 1.125rem; }
   .btn-hero { background: var(--cta-bg); box-shadow: 0 0 30px hsla(var(--button-bg), 0.4); }
@@ -405,6 +414,13 @@ export default function MinimalTemplate({ page, site }: { page: PageData; site: 
     return ''
   }
 
+  const getMediaAlt = (media?: MediaFile | MediaFile[] | string | null, fallback = '') => {
+    if (!media) return fallback
+    if (typeof media === 'string') return fallback
+    if (Array.isArray(media)) return getMediaAlt(media[0], fallback)
+    return media.alt || media.alternativeText || media.name || fallback
+  }
+
   const normalizeUrl = (url?: string) => {
     if (!url) return '#'
     if (/^https?:\/\//i.test(url)) return url
@@ -468,11 +484,13 @@ export default function MinimalTemplate({ page, site }: { page: PageData; site: 
         const metaName = typeof attrs.name === 'string' ? attrs.name.toLowerCase() : ''
         const metaProperty = typeof attrs.property === 'string' ? attrs.property.toLowerCase() : ''
         const metaHttpEquiv = typeof attrs.httpEquiv === 'string' ? attrs.httpEquiv.toLowerCase() : ''
+        const metaContent = typeof attrs.content === 'string' ? attrs.content.toLowerCase() : ''
         const metaKey = metaName || metaProperty || metaHttpEquiv || (attrs.charSet ? 'charset' : '')
+        const metaDedupKey = metaKey ? `meta:${metaKey}:${metaContent}` : `meta:${key}`
         if (metaName === 'description') continue
-        if (metaKey && seenHeadTags.has(`meta:${metaKey}`)) continue
-        if (metaKey) seenHeadTags.add(`meta:${metaKey}`)
-        tags.push(<meta key={metaKey ? `meta:${metaKey}` : key} {...attrs} />)
+        if (seenHeadTags.has(metaDedupKey)) continue
+        seenHeadTags.add(metaDedupKey)
+        tags.push(<meta key={metaDedupKey} {...attrs} />)
       }
 
       if (tagName === 'link') {
@@ -503,6 +521,7 @@ export default function MinimalTemplate({ page, site }: { page: PageData; site: 
   const buttonBackground = page.button_background || site.button_background || '#f59e0b'
   const ctaBackground = page.cta_background || site.cta_background || buttonBackground
   const buttonText = page.button_text || site.button_text || '#1a202c'
+  const buttonTextColor = page.button_text_color || site.button_text_color || page.button_text || site.button_text || '#1a202c'
   const textColor = page.text_color || site.text_color || '#f7fafc'
   const colorHighlightText = page.color_highlight_text || site.color_highlight_text || '#f59e0b'
   const colorMainBtnText = page.color_main_btn_text || site.color_main_btn_text || '#fff'
@@ -512,7 +531,8 @@ export default function MinimalTemplate({ page, site }: { page: PageData; site: 
   const metaDescription = pageSeoDescription || extractMetaDescription(htmlHeadContent)
   const heroTitle = page.heroTitle || page.hero_title || site.heroTitle || site.hero_title || page.title || siteName
   const heroSubtitle = page.heroSubtitle || page.hero_subtitle || site.heroSubtitle || site.hero_subtitle || ''
-  const heroBadge = page.hero_badge || site.hero_badge || ''
+  const pageHeroBadge = Object.prototype.hasOwnProperty.call(page, 'heroBadge') ? page.heroBadge : page.hero_badge
+  const heroBadge = typeof pageHeroBadge === 'string' ? pageHeroBadge.trim() : ''
   const ctaText = page.cta_text || site.cta_text || ''
   const redirectLink = page.cta_link || page.redirect_link || site.redirect_link || '/'
   const loginText = page.login_text || site.login_text
@@ -546,10 +566,14 @@ export default function MinimalTemplate({ page, site }: { page: PageData; site: 
     })
   }
 
-  const processedContent = page.content ? replaceVariables(page.content) : site.content ? replaceVariables(site.content) : ''
+  const contentSource = page.content || site.content || ''
+  const processedContent = contentSource ? replaceVariables(contentSource) : ''
   const backgroundImage = getMediaUrl(page.heroImage || page.hero_image || site.heroImage || site.hero_image || site.main_background_img)
-  const popupLogo = getMediaUrl(page.popup_logo || site.popup_logo)
-  const popupText = page.popup_text || site.popup_text || page.tagline || site.tagline || ''
+  const popupLogoSource = page.popup_logo || site.popup_logo
+  const popupLogo = getMediaUrl(popupLogoSource)
+  const pagePopupText = [page.popupText, page.popup_text].find((value) => typeof value === 'string' && value.trim())
+  const sitePopupText = [site.popupText, site.popup_text].find((value) => typeof value === 'string' && value.trim())
+  const popupText = pagePopupText || sitePopupText || page.tagline || site.tagline || ''
   const popupButtonText = page.get_bonus_btn_text || site.get_bonus_btn_text || ctaText
   const footerImagesSource = Array.isArray(page.footer_images) && page.footer_images.length > 0
     ? page.footer_images
@@ -559,7 +583,11 @@ export default function MinimalTemplate({ page, site }: { page: PageData; site: 
         ? site.footer_images
         : site.footerImages || []
   const footerImages = footerImagesSource
-    .map((item) => ({ ...item, imageUrl: getMediaUrl(item.image || undefined) }))
+    .map((item, index) => ({
+      ...item,
+      imageUrl: getMediaUrl(item.image || undefined),
+      imageAlt: item.alt || item.image_alt || getMediaAlt(item.image || undefined, `Footer certification ${index + 1}`),
+    }))
     .filter((item) => item.imageUrl)
 
   const dynamicStyles = `
@@ -577,6 +605,7 @@ export default function MinimalTemplate({ page, site }: { page: PageData; site: 
       --button-bg: ${buttonBackground};
       --cta-bg: ${ctaBackground};
       --button-text: ${buttonText};
+      --button-text-color: ${buttonTextColor};
       --color-main-btn: ${colorMainBtnText};
     }
   `
@@ -601,7 +630,7 @@ export default function MinimalTemplate({ page, site }: { page: PageData; site: 
               <div className="logo">
                 <a href={normalizeUrl(urlSite)}>
                   {getMediaUrl(page.logo || site.logo) ? (
-                    <img src={getMediaUrl(page.logo || site.logo)} alt={siteName} className="logo-image" />
+                    <img src={getMediaUrl(page.logo || site.logo)} alt={getMediaAlt(page.logo, getMediaAlt(site.logo, siteName))} className="logo-image" />
                   ) : (
                     <span className="logo-text">{siteName}</span>
                   )}
@@ -716,7 +745,7 @@ export default function MinimalTemplate({ page, site }: { page: PageData; site: 
                 <div className="logo">
                   <a href={normalizeUrl(urlSite)}>
                     {getMediaUrl(page.logo || site.logo) ? (
-                      <img src={getMediaUrl(page.logo || site.logo)} alt={siteName} className="logo-image" />
+                      <img src={getMediaUrl(page.logo || site.logo)} alt={getMediaAlt(page.logo, getMediaAlt(site.logo, siteName))} className="logo-image" />
                     ) : (
                       <span className="logo-text">{siteName}</span>
                     )}
@@ -726,7 +755,7 @@ export default function MinimalTemplate({ page, site }: { page: PageData; site: 
                   {footerImages.length > 0 ? (
                     footerImages.map((item, index) => (
                       <a key={item.id || index} href={item.link || '#'} className="footer-certification-link" target="_blank" rel="nofollow">
-                        <img src={item.imageUrl} alt={`Footer certification ${index + 1}`} className="footer-certification-image" />
+                        <img src={item.imageUrl} alt={item.imageAlt} className="footer-certification-image" />
                       </a>
                     ))
                   ) : (
@@ -776,7 +805,7 @@ export default function MinimalTemplate({ page, site }: { page: PageData; site: 
               <div className="popup-content">
                 {popupLogo && (
                   <div className="logo">
-                    <img src={popupLogo} alt="Logo" className="logo-image" />
+                    <img src={popupLogo} alt={getMediaAlt(page.popup_logo, getMediaAlt(site.popup_logo, 'Logo'))} className="logo-image" />
                   </div>
                 )}
                 {popupText && <div className="popup-text">{popupText}</div>}
